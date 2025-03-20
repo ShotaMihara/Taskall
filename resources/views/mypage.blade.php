@@ -17,5 +17,14 @@
                 </div>
             @endif
         </div>
+
+         {{-- 目標の一覧を表示 --}}
+        <div class="mt-8 flex items-center flex-col">
+            <h1 class="mb-4 text-4xl font-bold text-gray-800 dark:text-gray-200">目標一覧</h1>
+            <p class="mb-4 text-lg text-gray-600 dark:text-gray-400">
+                ここに目標の一覧を表示します。
+            </p>
+        </div>
+
     </div>
 </x-app-layout>
