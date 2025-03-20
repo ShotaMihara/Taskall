@@ -2,15 +2,15 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GoalController;
 
 // TOPページ
 Route::get('/', function () {
     return view('top');
 });
 
-Route::get('/mypage', function () {
-    return view('mypage');
-})->middleware(['auth', 'verified'])->name('mypage');
+// 
+Route::get('/mypage', [GoalController::class, 'GoalIndex'])->middleware(['auth', 'verified'])->name('mypage');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

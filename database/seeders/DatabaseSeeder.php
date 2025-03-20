@@ -19,5 +19,13 @@ class DatabaseSeeder extends Seeder
         Goal::factory(5)->create([
             'user_id' => 1,
         ]);
+
+        Goal::factory(5)->create([
+            'user_id' => 2,
+        ]);
+
+        Goal::factory(5)->create([
+            'user_id' => 3,
+        ]);
     }
 }
