@@ -13,5 +13,11 @@ class GoalController extends Controller
         return view('mypage', compact('goals'));
     }
 
+    public function GoalShow($id)
+    {
+        $goal = Goal::find($id);
+        return view('show', compact('goal'));
+    }
+
     
 }

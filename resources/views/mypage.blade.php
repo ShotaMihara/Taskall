@@ -24,13 +24,14 @@
             <div class="mb-4 text-lg text-gray-600 dark:text-gray-400 w-full max-w-4xl">
                 @foreach ($goals as $goal)
                     <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg mb-4 p-4">
-                        <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">{{ $goal->title }}</h2>
+                        <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">
+                            <a href="{{ route('goal.show', $goal->id) }}">{{ $goal->title }}</a>
+                        </h2>
                         <div class="text-gray-600 dark:text-gray-400">
                             <span>進捗度：{{ $goal->progress }}%</span>
                             <span>達成期限：{{ $goal->deadline }}</span>
                             <span>{{ $goal->is_completed ? '達成済み' : '未達成' }}</span>
                         </div>
-                        
                     </div>
                 @endforeach
             </div>
