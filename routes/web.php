@@ -11,7 +11,7 @@ Route::get('/', function () {
 
 // 
 Route::get('/mypage', [GoalController::class, 'GoalIndex'])->middleware(['auth', 'verified'])->name('mypage');
-Route::get('/goal/{id}', [GoalController::class, 'GoalShow'])->middleware(['auth', 'verified'])->name('goal.show');
+Route::get('/goal/{id}', [GoalController::class, 'GoalShow'])->middleware(['auth', 'verified'])->name('show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

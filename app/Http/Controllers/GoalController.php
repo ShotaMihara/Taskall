@@ -16,7 +16,8 @@ class GoalController extends Controller
     public function GoalShow($id)
     {
         $goal = Goal::find($id);
-        return view('show', compact('goal'));
+        $tasks = $goal->tasks; // 関連するタスクを取得
+        return view('show', compact('goal', 'tasks'));
     }
 
     

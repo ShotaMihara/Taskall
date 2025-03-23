@@ -17,6 +17,14 @@
                         <span>進捗度：{{ $goal->progress }}%</span>
                         <span>達成期限：{{ $goal->deadline }}</span>
                         <span>{{ $goal->is_completed ? '達成済み' : '未達成' }}</span>
+                        <div class="mt-4">
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">タスク一覧</h3>
+                            <ul class="list-disc list-inside">
+                                @foreach ($tasks as $task)
+                                    <li>{{ $task->name }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                     <div class="mt-4">
                         <a href="" class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
