@@ -23,7 +23,7 @@
                 @foreach ($goals as $goal)
                     <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg mb-4 p-4 border border-transparent hover:border-white">
                         <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">
-                            <a href="{{ route('goal.show', $goal->id) }}" class="hover:text-blue-500">{{ $goal->title }}</a>
+                            <a href="{{ route('show', $goal->id) }}" class="hover:text-blue-500">{{ $goal->title }}</a>
                         </h2>
                         <div class="text-gray-600 dark:text-gray-400 hover:border hover:border-white p-2">
                             <span>進捗度：{{ $goal->progress }}%</span>
