@@ -3,12 +3,16 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Database\Factories\GorlFactory;
-use Database\Factories\TaskFactory;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Goal;
 use App\Models\Task;
+use Database\Factories\GoalFactory;
+use Database\Factories\TaskFactory;
+use App\Models\Resource;
+use Database\Factories\ResourceFactory;
+use Illuminate\Database\Seeder;
+
+
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,6 +28,10 @@ class DatabaseSeeder extends Seeder
             ])->each(function ($goal) {
                 // 各ゴールに対してタスクを作成
                 Task::factory(5)->create([
+                    'goal_id' => $goal->id,
+                ]);
+                // 各ゴールに対してリソースを作成
+                Resource::factory(2)->create([
                     'goal_id' => $goal->id,
                 ]);
             });
