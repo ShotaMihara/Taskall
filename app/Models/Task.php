@@ -15,6 +15,7 @@ class Task extends Model
         'description',
         'deadline',
         'status',
+        'order',
     ];
 
     public function goal()
