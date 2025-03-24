@@ -5,23 +5,24 @@
         </h2>
     </x-slot>
 
-    
-
-         {{-- 目標の一覧を表示 --}}
-         <div class="mt-8 flex items-center flex-col">
-            <h1 class="mb-4 mt-4 text-4xl font-bold text-gray-800 dark:text-gray-200">ゴール詳細</h1>
-            <div class="mb-4 text-lg text-gray-600 dark:text-gray-400 w-full max-w-4xl">
-                <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg mb-4 p-4">
-                    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">{{ $goal->title }}</h2>
-                    <div class="text-gray-600 dark:text-gray-400">
-                        <span>進捗度：{{ $goal->progress }}%</span>
-                        <span>達成期限：{{ $goal->deadline }}</span>
-                        <span>{{ $goal->is_completed ? '達成済み' : '未達成' }}</span>
+    {{-- 目標の詳細を表示 --}}
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">ゴール詳細</h1>
+                    <div class="mb-4 text-lg text-gray-600 dark:text-gray-400">
+                        <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">{{ $goal->title }}</h2>
+                        <div class="mt-2">
+                            <span class="block">進捗度：{{ $goal->progress }}%</span>
+                            <span class="block">達成期限：{{ $goal->deadline }}</span>
+                            <span class="block">{{ $goal->is_completed ? '達成済み' : '未達成' }}</span>
+                        </div>
                         <div class="mt-4">
                             <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">タスク一覧</h3>
                             <ul class="list-disc list-inside">
                                 @foreach ($tasks as $task)
-                                    <li>{{ $task->name }}  締切:{{$task->deadline}} </li>
+                                    <li>{{ $task->name }} 締切: {{ $task->deadline }}</li>
                                 @endforeach
                             </ul>
                         </div>
@@ -29,26 +30,23 @@
                             <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">リソース一覧</h3>
                             <ul class="list-disc list-inside mt-2">
                                 @foreach ($resources as $resource)
-                                    <li><a href="{{ $resource->link }}" class="text-blue-500 hover:underline">{{ $resource->link }}</a></li>
+                                    @if ($resource->title !== 'ホストを解決できません' && $resource->title !== '表示できません'&& $resource->title !== 'ページが見つかりません')
+                                        <li><a href="{{ $resource->url }}" class="text-blue-500 hover:underline">{{ $resource->title }}</a></li>
+                                    @endif
                                 @endforeach
                             </ul>
                         </div>
-                    </div>
-                    <div class="mt-4">
-                        <a href="" class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                            編集
-                        </a>
-                        <form action="" method="POST" class="inline-block">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                削除
-                            </button>
-                        </form>
+                        <div class="mt-4 flex space-x-2">
+                            <a href="" class="inline-block px-5 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">編集</a>
+                            <form action="" method="POST" class="inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="inline-block px-5 py-2 bg-red-500 text-white rounded hover:bg-red-600">削除</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </x-app-layout>
