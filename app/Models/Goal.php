@@ -22,4 +22,9 @@ class Goal extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function resources()
+    {
+        return $this->hasMany(Resource::class);
+    }
 }

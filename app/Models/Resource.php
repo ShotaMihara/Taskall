@@ -14,4 +14,9 @@ class Resource extends Model
         'goal_id',
         'link',
     ];
+
+    public function goal()
+    {
+        return $this->belongsTo(Goal::class);
+    }
 }

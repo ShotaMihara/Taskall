@@ -21,7 +21,15 @@
                             <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">タスク一覧</h3>
                             <ul class="list-disc list-inside">
                                 @foreach ($tasks as $task)
-                                    <li>{{ $task->name }}</li>
+                                    <li>{{ $task->name }}  締切:{{$task->deadline}} </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">リソース一覧</h3>
+                            <ul class="list-disc list-inside mt-2">
+                                @foreach ($resources as $resource)
+                                    <li><a href="{{ $resource->link }}" class="text-blue-500 hover:underline">{{ $resource->link }}</a></li>
                                 @endforeach
                             </ul>
                         </div>

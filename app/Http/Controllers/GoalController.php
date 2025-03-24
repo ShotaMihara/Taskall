@@ -17,8 +17,7 @@ class GoalController extends Controller
     {
         $goal = Goal::find($id);
         $tasks = $goal->tasks; // 関連するタスクを取得
-        return view('show', compact('goal', 'tasks'));
+        $resources = $goal->resources; // 関連するリソースを取得
+        return view('show', compact('goal', 'tasks', 'resources'));
     }
-
-    
 }
