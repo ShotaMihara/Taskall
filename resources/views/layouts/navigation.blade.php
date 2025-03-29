@@ -16,6 +16,11 @@
                         {{ __('MyPage') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('setting')" :active="request()->routeIs('setting')">
+                        {{ __('目標を設定') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->

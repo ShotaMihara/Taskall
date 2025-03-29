@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoalController;
+use App\Http\Controllers\GeminiController;
 
 // TOPページ
 Route::get('/', function () {
@@ -12,6 +13,9 @@ Route::get('/', function () {
 // 
 Route::get('/mypage', [GoalController::class, 'GoalIndex'])->middleware(['auth', 'verified'])->name('mypage');
 Route::get('/goal/{id}', [GoalController::class, 'GoalShow'])->middleware(['auth', 'verified'])->name('show');
+Route::get('/ask', [GeminiController::class, 'askQuestion'])->middleware(['auth', 'verified'])->name('ask');
+Route::view('/setting', 'setting')->middleware(['auth', 'verified'])->name('setting');
+// Route::get('/list-models', [GeminiController::class, 'listModels'])->middleware(['auth', 'verified'])->name('listModels');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
