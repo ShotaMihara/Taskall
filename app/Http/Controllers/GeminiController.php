@@ -26,17 +26,12 @@ class GeminiController extends Controller
 
         $goal1 = <<<EOD
            
-            設定したタスクについてタスク毎に詳細を教えてください
-            タスクの詳細には以下の項目を含めてください
-            タスク名は""で囲ってください
-            内容は''で囲ってください
-            (例)
-            "タスク"
-                '目的:'
-                'アクション:'
+            設定したタスクについて詳細を各タスクにつき3つづつ出力してください
+            タスクごとに""で囲ってください
+            内容は?で囲ってください
             {$response}
             EOD;
-            
+
             $response1 = Gemini::generativeModel("gemini-2.0-flash")->generateContent($goal1)->text();
 
         $goal2 = <<<EOD
@@ -47,6 +42,19 @@ class GeminiController extends Controller
             EOD;
 
             $response2 = Gemini::generativeModel("gemini-2.0-flash")->generateContent($goal2)->text();
-            return view('ask', compact('response', 'response1', 'response2'));
+
+            $Matchesname = [];
+            $Matchesdescription = [];
+            $Matchesurl = [];
+            preg_match_all('/"(.*?)"/', $response, $Matchesname);
+            preg_match_all('/\?(.*?)\?/', $response1, $Matchesdescription);
+            preg_match_all('/"(.*?)"/', $response2, $Matchesurl);
+            $Tasknames = $Matchesname[1]; // 抽出された文字列の配列
+            $Taskdescription = $Matchesdescription[1]; // 抽出された文字列の配列
+            $Taskurl = $Matchesurl[1]; // 抽出された文字列の配列
+         
+            Log::info('Extracted Task URLs:', ['Taskurl' => $Taskurl]);
+
+            return view('ask', compact('Tasknames','Taskurl','Taskdescription'));
         }
     }
