@@ -1,21 +1,21 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
             {{ __('タスク確認ページ') }}
         </h2>
     </x-slot>
     <div class="flex mt-8 h-screen">
         <!-- 左側のコンテンツ部分 -->
-        <div class="w-3/4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-6 rounded-lg shadow-lg border-b-4 border-gray-800 overflow-y-auto custom-scrollbar">
+        <div class="w-3/4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-6 mx-6 rounded-lg shadow-lg border-b-4 border-gray-800 overflow-y-auto custom-scrollbar">
             <h1 class="text-2xl font-bold mb-4 flex items-center justify-center">作成されたタスク</h1>
             <div class="mb-4 text-lg">
                 @foreach ($Tasknames as $index => $name)
                     <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg mb-4 p-4 border border-transparent hover:border-white">
                         <!-- タスク名 -->
                         <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">
-                            <ul class="list-disc pl-5">
-                                <li>{{ $name }}</li>
-                            </ul>
+                            <ol class="list-disc pl-5">
+                                <ol>{{ $loop->iteration }}. {{ $name }}</ol>
+                            </ol>
                         </h2>
 
                         <!-- タスクの説明 -->

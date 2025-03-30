@@ -17,7 +17,7 @@ class GeminiController extends Controller
 
         $goal = <<<EOD
             #目標{$prompt}を達成するまでのタスクを作成してください。
-            箇条書きで記入してください。
+            １から順に番号をつけて記入してください。
             最大で15件まで記入可能です。
             Phase などは必要ありません
             項目ごとに""で囲ってください
