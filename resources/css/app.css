@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* スクロールバーをカスタマイズ */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px; /* スクロールバーの幅 */
+    height: 6px; /* スクロールバーの高さ */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(180, 170, 170, 0.3); /* スクロールバーの色 */
+    border-radius: 3px; /* スクロールバーの角を丸くする */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.5); /* ホバー時の色 */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background-color: transparent; /* スクロールバーの背景を透明にする */
+}
