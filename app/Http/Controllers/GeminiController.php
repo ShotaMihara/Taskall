@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Gemini\Laravel\Facades\Gemini;
 use Illuminate\Support\Facades\Log;
+use Google\Client;
+use Google\Service\YouTube;
 
 class GeminiController extends Controller
 {
     public function askQuestion(Request $request)
     {
+        // リクエストの内容を$promptに格納
         $prompt = $request->input('question');
+
         $goal = <<<EOD
-    
             #目標{$prompt}を達成するまでのタスクを作成してください。
             箇条書きで記入してください。
             最大で15件まで記入可能です。
@@ -26,35 +29,44 @@ class GeminiController extends Controller
 
         $goal1 = <<<EOD
            
-            設定したタスクについて詳細を各タスクにつき3つづつ出力してください
+            #設定したタスクについて詳細を各タスクにつき3つずつ出力してください
             タスクごとに""で囲ってください
             内容は?で囲ってください
+            以下の例のように出力してください
+            例）
+            1.
+            2.
+            3.
             {$response}
             EOD;
-
             $response1 = Gemini::generativeModel("gemini-2.0-flash")->generateContent($goal1)->text();
 
-        $goal2 = <<<EOD
-            参考になるyoutybeやブログのリンクを教えてください
-            URLのみ出力してください
-            URLごとに""で囲ってください
-            {$response}
-            EOD;
+            // YouTube API を使用して動画を検索
+            $client = new Client();
+            $client->setDeveloperKey(env('YOUTUBE_API_KEY'));
+            $youtube = new YouTube($client);
 
-            $response2 = Gemini::generativeModel("gemini-2.0-flash")->generateContent($goal2)->text();
+            $terms = $youtube->search->listSearch('snippet', [
+                'q' => $prompt,
+                'maxResults' => 10,
+                'type' => 'video',
+                'order' => 'relevance',
+            ]); 
+
+            $Taskvideo = collect($terms->getItems())->map(function ($item) {
+                return [
+                    'title' => $item['snippet']['title'],
+                    'url' => 'https://www.youtube.com/watch?v=' . $item['id']['videoId'],
+                ];
+            });
 
             $Matchesname = [];
             $Matchesdescription = [];
-            $Matchesurl = [];
             preg_match_all('/"(.*?)"/', $response, $Matchesname);
             preg_match_all('/\?(.*?)\?/', $response1, $Matchesdescription);
-            preg_match_all('/"(.*?)"/', $response2, $Matchesurl);
             $Tasknames = $Matchesname[1]; // 抽出された文字列の配列
             $Taskdescription = $Matchesdescription[1]; // 抽出された文字列の配列
-            $Taskurl = $Matchesurl[1]; // 抽出された文字列の配列
-         
-            Log::info('Extracted Task URLs:', ['Taskurl' => $Taskurl]);
 
-            return view('ask', compact('Tasknames','Taskurl','Taskdescription'));
+            return view('ask', compact('Tasknames','Taskdescription','Taskvideo'));
         }
     }
