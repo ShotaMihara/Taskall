@@ -25,7 +25,7 @@
                         <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">
                             <a href="{{ route('show', $goal->id) }}" class="hover:text-blue-500">{{ $goal->title }}</a>
                         </h2>
-                        <div class="text-gray-600 dark:text-gray-400 hover:border hover:border-white p-2">
+                        <div class="text-gray-600 dark:text-gray-400">
                             <span>進捗度：{{ $goal->progress }}%</span>
                             <span>達成期限：{{ $goal->deadline }}</span>
                             <span>{{ $goal->is_completed ? '達成済み' : '未達成' }}</span>
