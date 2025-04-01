@@ -15,13 +15,12 @@ class GoalController extends Controller
 
     public function GoalShow($id)
     {
-        $goal = Goal::find($id);
+        $goal = Goal::with('resources','tasks')->findOrFail($id);
         $tasks = $goal->tasks;
-        $resources = $goal->resources->map(function ($resource) {
-            $resource->title = $resource->fetchTitle();
-            return $resource;
-        });
+        $resources = $goal->resources;
+        
 
         return view('show', compact('goal', 'tasks', 'resources'));
     }
 }
+

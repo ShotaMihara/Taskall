@@ -7,6 +7,11 @@ use Gemini\Laravel\Facades\Gemini;
 use Illuminate\Support\Facades\Log;
 use Google\Client;
 use Google\Service\YouTube;
+use App\Models\Goal;
+use App\Models\Task;
+use App\Models\Resource; 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class GeminiController extends Controller
 {
@@ -25,10 +30,9 @@ class GeminiController extends Controller
             1. "タスク1"
             2. "タスク2"
             EOD;
-            $response = Gemini::generativeModel("gemini-2.0-flash")->generateContent($goal)->text();
+        $response = Gemini::generativeModel("gemini-2.0-flash")->generateContent($goal)->text();
 
         $goal1 = <<<EOD
-           
             #設定したタスクについて詳細を各タスクにつき3つずつ出力してください
             タスクごとに""で囲ってください
             内容は?で囲ってください
@@ -39,44 +43,97 @@ class GeminiController extends Controller
             3.
             {$response}
             EOD;
-            $response1 = Gemini::generativeModel("gemini-2.0-flash")->generateContent($goal1)->text();
+        $response1 = Gemini::generativeModel("gemini-2.0-flash")->generateContent($goal1)->text();
 
-            // YouTube API を使用して動画を検索
-            $client = new Client();
-            $client->setDeveloperKey(env('YOUTUBE_API_KEY'));
-            $youtube = new YouTube($client);
+        $MatchesName = [];
+        $MatchesDescription = [];
+        preg_match_all('/"(.*?)"/', $response, $MatchesName);
+        preg_match_all('/\?(.*?)\?/', $response1, $MatchesDescription);
+        $TaskNames = $MatchesName[1]; // 抽出された文字列の配列
+        $TaskDescription = $MatchesDescription[1]; // 抽出された文字列の配列
 
-            $terms = $youtube->search->listSearch('snippet', [
-                'q' => $prompt,
-                'maxResults' => 10,
+        // YouTube API を使用して関連動画を取得
+        $TaskVideos = $this->getYouTubeVideos($prompt);
+        Log::info('Task Videos:', ['TaskVideos' => $TaskVideos]);
+        return view('ask', compact('TaskNames', 'TaskDescription', 'TaskVideos'));
+    }
+
+    /**
+     * YouTube API を使用して動画を取得
+     */
+    private function getYouTubeVideos($query)
+    {
+        $apiKey = env('YOUTUBE_API_KEY');
+        $client = new \Google\Client();
+        $client->setDeveloperKey($apiKey);
+
+        $youtube = new \Google\Service\YouTube($client);
+
+        try {
+            $response = $youtube->search->listSearch('snippet', [
+                'q' => $query,
+                'maxResults' => 5,
                 'type' => 'video',
-                'order' => 'relevance',
-            ]); 
+            ]);
 
-            $TaskVideo = collect($terms->getItems())->map(function ($item) {
-                return [
+            $videos = collect();
+
+            foreach ($response->getItems() as $item) {
+                $videos->push([
                     'title' => $item['snippet']['title'],
                     'url' => 'https://www.youtube.com/watch?v=' . $item['id']['videoId'],
-                ];
-            });
-            // ダミーデータ
-           
-            // $TaskVideo = [
-            //         ['title' => 'Example Video 1', 'url' => 'https://www.youtube.com/watch?v=abc123'],
-            //         ['title' => 'Example Video 2', 'url' => 'https://www.youtube.com/watch?v=def456'],
-            //         ['title' => 'Example Video 3', 'url' => 'https://www.youtube.com/watch?v=ghi789'],
-            //         ['title' => 'Example Video 4', 'url' => 'https://www.youtube.com/watch?v=jkl012'],
-            //         ['title' => 'Example Video 5', 'url' => 'https://www.youtube.com/watch?v=mno345'],
-            //         ['title' => 'Example Video 6', 'url' => 'https://www.youtube.com/watch?v=pqr678'],
-            // ];
-            
-            $Matchesname = [];
-            $Matchesdescription = [];
-            preg_match_all('/"(.*?)"/', $response, $Matchesname);
-            preg_match_all('/\?(.*?)\?/', $response1, $Matchesdescription);
-            $Tasknames = $Matchesname[1]; // 抽出された文字列の配列
-            $Taskdescription = $Matchesdescription[1]; // 抽出された文字列の配列
+                ]);
+            }
 
-            return view('ask', compact('Tasknames','Taskdescription','TaskVideo'));
+            return $videos;
+        } catch (\Exception $e) {
+            Log::error('YouTube API Error: ' . $e->getMessage());
+            return collect(); // 空のコレクションを返す
         }
     }
+   
+    public function saveToDatabase(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $prompt = $request->input('prompt');
+            $TaskNames = json_decode($request->input('taskNames'), true) ?? [];
+            $taskDescriptions = json_decode($request->input('taskDescriptions'), true) ?? [];
+            $TaskVideos = json_decode($request->input('taskVideos'), true) ?? [];
+
+            // ゴールを作成
+            $goal = Goal::create([
+                'title' => $prompt,
+                'user_id' => Auth::id(),
+            ]);
+
+            // タスクを作成
+            foreach ($TaskNames as $index => $name) {
+                Task::create([
+                    'goal_id' => $goal->id,
+                    'name' => $name,
+                    'description' => $taskDescriptions[$index] ?? null,
+                ]);
+            }
+         
+            // リソースを作成
+            foreach ($TaskVideos as $video) {
+                Log::info('Video Data:', ['video' => $video]); // デバッグログを追加
+                Resource::create([
+                    'goal_id' => $goal->id,
+                    'title' => $video['title'],
+                    'link' => $video['url'],
+                ]);
+            }
+
+            DB::commit();
+
+            return to_route('mypage')->with('success', 'タスクとリソースを保存しました！');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Failed to save data:', ['error' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'データの保存に失敗しました。');
+        }
+    }
+}

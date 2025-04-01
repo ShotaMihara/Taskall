@@ -30,9 +30,7 @@
                             <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">リソース一覧</h3>
                             <ul class="list-disc list-inside mt-2">
                                 @foreach ($resources as $resource)
-                                    @if ($resource->title !== 'ホストを解決できません' && $resource->title !== '表示できません'&& $resource->title !== 'ページが見つかりません')
                                         <li><a href="{{ $resource->link }}" class="text-blue-500 hover:underline">{{ $resource->title }}</a></li>
-                                    @endif
                                 @endforeach
                             </ul>
                         </div>
