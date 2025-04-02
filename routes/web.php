@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoalController;
 use App\Http\Controllers\GeminiController;
+use App\Http\Controllers\TaskController;
 
 // TOPページ
 Route::get('/', function () {
@@ -18,6 +19,9 @@ Route::view('/setting', 'setting')->middleware(['auth', 'verified'])->name('sett
 // Route::get('/list-models', [GeminiController::class, 'listModels'])->middleware(['auth', 'verified'])->name('listModels');
 
 Route::post('/save-to-database', [GeminiController::class, 'saveToDatabase'])->name('save.to.database');
+
+Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+Route::patch('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
