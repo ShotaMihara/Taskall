@@ -22,6 +22,7 @@ Route::post('/save-to-database', [GeminiController::class, 'saveToDatabase'])->n
 
 Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
 Route::patch('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+Route::patch('/tasks/{task}/toggle-status', [TaskController::class, 'toggleStatus'])->name('tasks.toggleStatus');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

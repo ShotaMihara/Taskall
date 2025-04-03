@@ -13,26 +13,44 @@
                     <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">ゴール詳細</h1>
                     <div class="mb-4 text-lg text-gray-600 dark:text-gray-400">
                         <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">{{ $goal->title }}</h2>
-                        <div class="mt-2">
-                            <span class="block">進捗度：{{ $goal->progress }}%</span>
-                            <span class="block">{{ $goal->is_completed ? '達成済み' : '未達成' }}</span>
+                        
+                        <!-- 進捗度の表示 -->
+                        <div class="mt-4">
+                            <p class="text-lg font-medium">
+                                進捗度: <span class="text-blue-500">{{ $progress }}%</span>
+                            </p>
+                            <div class="w-full bg-gray-300 rounded-full h-4 mt-2">
+                                <div class="bg-blue-500 h-4 rounded-full" style="width: {{ $progress }}%;"></div>
+                            </div>
                         </div>
+
+                        <!-- タスク一覧 -->
                         <div class="mt-4">
                             <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">タスク一覧</h3>
-                            <ul class="list-disc list-inside">
+                            <ul class="list-disc list-inside mt-4">
                                 @foreach ($tasks as $task)
-                                <li>
-                                    {{ $task->name }} 締切: {{ $task->deadline }}
-                                    <a href="{{ route('tasks.edit', $task->id) }}" class="ml-2 text-blue-500 hover:underline">編集</a>
-                                </li>
-                            @endforeach
+                                    <li>
+                                        {{ $task->name }}
+                                        <a href="{{ route('tasks.edit', $task->id) }}" class="ml-2 text-blue-500 hover:underline">編集</a>
+                                        <form action="{{ route('tasks.toggleStatus', $task->id) }}" method="POST" class="inline-block ml-2">
+                                            @csrf
+                                            @method('PATCH')
+                                            @if ($task->status)
+                                                <button type="submit" class="text-green-500 hover:underline">完了</button>
+                                            @else
+                                                <button type="submit" class="text-red-500 hover:underline">未完了</button>
+                                            @endif
+                                        </form>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
+
                         <div class="mt-4">
                             <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">リソース一覧</h3>
                             <ul class="list-disc list-inside mt-2">
                                 @foreach ($resources as $resource)
-                                        <li><a href="{{ $resource->link }}" class="text-blue-500 hover:underline">{{ $resource->title }}</a></li>
+                                    <li><a href="{{ $resource->link }}" class="text-blue-500 hover:underline">{{ $resource->title }}</a></li>
                                 @endforeach
                             </ul>
                         </div>

@@ -29,4 +29,16 @@ class TaskController extends Controller
 
         return redirect()->route('mypage')->with('success', 'タスクが更新されました！');
     }
+
+    /**
+     * タスクの状態を切り替え
+     */
+    public function toggleStatus(Task $task)
+    {
+        // status を切り替える
+        $task->status = !$task->status;
+        $task->save();
+
+        return redirect()->back()->with('success', 'タスクの状態を更新しました！');
+    }
 }
