@@ -17,10 +17,10 @@
                         <!-- 進捗度の表示 -->
                         <div class="mt-4">
                             <p class="text-lg font-medium">
-                                進捗度: <span class="text-blue-500">{{ $progress }}%</span>
+                                進捗度: <span class="text-blue-500">{{ $goal->progress }}%</span>
                             </p>
                             <div class="w-full bg-gray-300 rounded-full h-4 mt-2">
-                                <div class="bg-blue-500 h-4 rounded-full" style="width: {{ $progress }}%;"></div>
+                                <div class="bg-blue-500 h-4 rounded-full" style="width: {{ $goal->progress }}%;"></div>
                             </div>
                         </div>
 

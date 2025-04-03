@@ -27,4 +27,15 @@ class Goal extends Model
     {
         return $this->hasMany(Resource::class);
     }
+
+    /**
+     * 進捗度を計算して保存
+     */
+    public function calculateProgress()
+    {
+        $totalTasks = $this->tasks->count();
+        $completedTasks = $this->tasks->where('status', 1)->count();
+        $this->progress = $totalTasks > 0 ? round(($completedTasks / $totalTasks) * 100, 2) : 0;
+        $this->save();
+    }
 }
