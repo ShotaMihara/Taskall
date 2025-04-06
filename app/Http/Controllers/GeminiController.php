@@ -108,16 +108,22 @@ class GeminiController extends Controller
                 'user_id' => Auth::id(),
             ]);
 
-            // タスクを作成
+            // タスク詳細を3つずつ分割
+            $chunkedDescriptions = array_chunk($taskDescriptions, 3);
+
+            // タスクを保存
             foreach ($TaskNames as $index => $name) {
+                // 各タスクの詳細を「？」で結合
+                $description = implode(' ', $chunkedDescriptions[$index] ?? []);
+
                 Task::create([
                     'goal_id' => $goal->id,
                     'name' => $name,
-                    'description' => $taskDescriptions[$index] ?? null,
+                    'description' => $description, // 結合した詳細を保存
                 ]);
             }
-         
-            // リソースを作成
+
+            // リソースを保存
             foreach ($TaskVideos as $video) {
                 Resource::create([
                     'goal_id' => $goal->id,

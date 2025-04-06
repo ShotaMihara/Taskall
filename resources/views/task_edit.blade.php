@@ -10,10 +10,10 @@
                     <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">タスク名</label>
                     <input type="text" name="name" id="name" value="{{ $task->name }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                 </div>
-                {{-- <div class="mb-4">
+                <div class="mb-4">
                     <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">タスク詳細</label>
                     <input type="text" name="name" id="name" value="{{ $task->description }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                </div> --}}
+                </div>
                 <div class="mb-4">
                     <label for="deadline" class="block text-sm font-medium text-gray-700 dark:text-gray-300">締切</label>
                     <input type="date" name="deadline" id="deadline" value="{{ $task->deadline }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">

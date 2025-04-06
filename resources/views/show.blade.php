@@ -25,41 +25,42 @@
                         </div>
 
                         <!-- タスク一覧 -->
-                        <div class="mt-4">
-                            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">タスク一覧</h3>
-                            <div class="flex flex-col gap-4 mt-4">
-                                @foreach ($tasks as $task)
-                                    <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg p-4 border border-transparent hover:border-gray-300">
-                                        <div class="flex justify-between items-center">
-                                            <!-- チェックボックスとタスク名 -->
-                                            <div class="flex items-center">
-                                                <form action="{{ route('tasks.toggleStatus', $task->id) }}" method="POST" id="toggle-form-{{ $task->id }}">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <input type="hidden" name="color-mode" id="color-mode-{{ $task->id }}">
-                                                    <input 
-                                                        type="checkbox" 
-                                                        onchange="submitToggleForm({{ $task->id }})" 
-                                                        {{ $task->status ? 'checked' : '' }} 
-                                                        class="mr-2 w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
-                                                    >
-                                                </form>
-                                                <div>
-                                                    <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                                                        {{ $loop->iteration }}. {{ $task->name }}
-                                                    </h2>
-                                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                                        {{ $task->description }}
+                        <div class="flex flex-col gap-4 mt-4">
+                            @foreach ($tasks as $task)
+                                <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg p-4 border border-transparent hover:border-gray-300">
+                                    <div class="flex justify-between items-center">
+                                        <!-- チェックボックスとタスク名 -->
+                                        <div class="flex">
+                                            <form action="{{ route('tasks.toggleStatus', $task->id) }}" method="POST" id="toggle-form-{{ $task->id }}">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="color-mode" id="color-mode-{{ $task->id }}">
+                                                <input 
+                                                    type="checkbox" 
+                                                    onchange="submitToggleForm({{ $task->id }})" 
+                                                    {{ $task->status ? 'checked' : '' }} 
+                                                    class="mr-2 w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                                                >
+                                            </form>
+                                            <div>
+                                                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                                                    {{ $loop->iteration }}. {{ $task->name }}
+                                                </h2>
+                                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                                    <p class="list-disc pl-5">
+                                                        @foreach (explode(' ', $task->description) as $description)
+                                                            <p>{{ $description }}</p>
+                                                        @endforeach
                                                     </p>
-                                                </div>
+                                                </p>
                                             </div>
-
-                                            <!-- 編集リンク -->
-                                            <a href="{{ route('tasks.edit', $task->id) }}" class="text-blue-500 hover:underline">編集</a>
                                         </div>
+
+                                        <!-- 編集リンク -->
+                                        <a href="{{ route('tasks.edit', $task->id) }}" class="text-blue-500 hover:underline">編集</a>
                                     </div>
-                                @endforeach
-                            </div>
+                                </div>
+                            @endforeach
                         </div>
 
                         <div class="mt-4">
