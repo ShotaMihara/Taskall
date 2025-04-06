@@ -27,12 +27,19 @@
                         <!-- タスク一覧 -->
                         <div class="mt-4">
                             <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">タスク一覧</h3>
-                            <ul class="list-disc list-inside mt-4">
+                            <div class="flex flex-col gap-4 mt-4">
                                 @foreach ($tasks as $task)
-                                    <li>
-                                        {{ $task->name }}
-                                        <a href="{{ route('tasks.edit', $task->id) }}" class="ml-2 text-blue-500 hover:underline">編集</a>
-                                        <form action="{{ route('tasks.toggleStatus', $task->id) }}" method="POST" class="inline-block ml-2">
+                                    <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg p-4 border border-transparent hover:border-gray-300">
+                                        <!-- タスク名 -->
+                                        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                                            {{ $loop->iteration }}. {{ $task->name }}
+                                        </h2>
+
+                                        <!-- 編集リンク -->
+                                        <a href="{{ route('tasks.edit', $task->id) }}" class="text-blue-500 hover:underline mt-2 inline-block">編集</a>
+
+                                        <!-- ステータス切り替えフォーム -->
+                                        <form action="{{ route('tasks.toggleStatus', $task->id) }}" method="POST" class="mt-2">
                                             @csrf
                                             @method('PATCH')
                                             @if ($task->status)
@@ -41,9 +48,9 @@
                                                 <button type="submit" class="text-red-500 hover:underline">未完了</button>
                                             @endif
                                         </form>
-                                    </li>
+                                    </div>
                                 @endforeach
-                            </ul>
+                            </div>
                         </div>
 
                         <div class="mt-4">
