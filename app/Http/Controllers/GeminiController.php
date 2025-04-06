@@ -119,7 +119,6 @@ class GeminiController extends Controller
          
             // リソースを作成
             foreach ($TaskVideos as $video) {
-                Log::info('Video Data:', ['video' => $video]); // デバッグログを追加
                 Resource::create([
                     'goal_id' => $goal->id,
                     'title' => $video['title'],
