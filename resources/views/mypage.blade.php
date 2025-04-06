@@ -42,6 +42,9 @@
                         </div>
                     </div>
                 @endforeach
+                @if ($goals->isEmpty())
+                    <p class="text-gray-600 text-center dark:text-gray-400">目標が登録されていません。</p>
+                @endif
             </div>
         </div>
     </div>
