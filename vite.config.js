@@ -10,7 +10,11 @@ export default defineConfig({
     ],
     server: {
         watch: {
-            usePolling: true,
+            usePolling: true, // ファイル変更の検知を改善
+            interval: 100,    // ポーリング間隔を短く設定
+        },
+        hmr: {
+            overlay: false,   // エラーオーバーレイを無効化
         },
     },
 });
