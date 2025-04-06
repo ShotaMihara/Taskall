@@ -30,24 +30,33 @@
                             <div class="flex flex-col gap-4 mt-4">
                                 @foreach ($tasks as $task)
                                     <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg p-4 border border-transparent hover:border-gray-300">
-                                        <!-- タスク名 -->
-                                        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                                            {{ $loop->iteration }}. {{ $task->name }}
-                                        </h2>
+                                        <div class="flex justify-between items-center">
+                                            <!-- チェックボックスとタスク名 -->
+                                            <div class="flex items-center">
+                                                <form action="{{ route('tasks.toggleStatus', $task->id) }}" method="POST" id="toggle-form-{{ $task->id }}">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input type="hidden" name="color-mode" id="color-mode-{{ $task->id }}">
+                                                    <input 
+                                                        type="checkbox" 
+                                                        onchange="submitToggleForm({{ $task->id }})" 
+                                                        {{ $task->status ? 'checked' : '' }} 
+                                                        class="mr-2 w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                                                    >
+                                                </form>
+                                                <div>
+                                                    <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                                                        {{ $loop->iteration }}. {{ $task->name }}
+                                                    </h2>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                                        {{ $task->description }}
+                                                    </p>
+                                                </div>
+                                            </div>
 
-                                        <!-- 編集リンク -->
-                                        <a href="{{ route('tasks.edit', $task->id) }}" class="text-blue-500 hover:underline mt-2 inline-block">編集</a>
-
-                                        <!-- ステータス切り替えフォーム -->
-                                        <form action="{{ route('tasks.toggleStatus', $task->id) }}" method="POST" class="mt-2">
-                                            @csrf
-                                            @method('PATCH')
-                                            @if ($task->status)
-                                                <button type="submit" class="text-green-500 hover:underline">完了</button>
-                                            @else
-                                                <button type="submit" class="text-red-500 hover:underline">未完了</button>
-                                            @endif
-                                        </form>
+                                            <!-- 編集リンク -->
+                                            <a href="{{ route('tasks.edit', $task->id) }}" class="text-blue-500 hover:underline">編集</a>
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
@@ -68,3 +77,22 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    function submitToggleForm(taskId) {
+        // localStorage から color-mode を取得して隠しフィールドに設定
+        const colorMode = localStorage.getItem('color-mode');
+        document.getElementById(`color-mode-${taskId}`).value = colorMode;
+
+        // フォームを送信
+        document.getElementById(`toggle-form-${taskId}`).submit();
+    }
+
+    // ページ読み込み時に color-mode を適用
+    const colorMode = localStorage.getItem('color-mode');
+    if (colorMode === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+</script>

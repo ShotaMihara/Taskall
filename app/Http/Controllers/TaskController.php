@@ -33,12 +33,17 @@ class TaskController extends Controller
     /**
      * タスクの状態を切り替え
      */
-    public function toggleStatus(Task $task)
+    public function toggleStatus(Request $request, Task $task)
     {
-        // status を切り替える
+        // タスクのステータスを切り替える
         $task->status = !$task->status;
         $task->save();
 
-        return redirect()->back()->with('success', 'タスクの状態を更新しました！');
+        // color-mode をセッションに保存
+        if ($request->has('color-mode')) {
+            session(['color-mode' => $request->input('color-mode')]);
+        }
+
+        return redirect()->back();
     }
 }
