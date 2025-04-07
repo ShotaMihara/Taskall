@@ -47,7 +47,7 @@
 
                             <!-- タスクの説明 -->
                             <div class="text-gray-600 dark:text-gray-400 p-2">
-                                <h3 class="text-lg font-bold mt-4">タスクの詳細</h3>
+                                <h3 class="text-lg font-bold mt-2 mb-2">タスクの詳細</h3>
                                 <ul class="list-disc pl-5">
                                     @foreach (array_chunk($TaskDescription, 3)[$index] ?? [] as $description)
                                         <li>{{ $description }}</li>
@@ -65,16 +65,16 @@
             </div>
 
             <!-- 右側のコンテンツ部分 -->
-            <div class="w-1/4 bg-gray-800 dark:bg-gray-900 text-white p-6 rounded-lg shadow-lg overflow-y-auto custom-scrollbar">
+            <div class="w-1/4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-6 rounded-lg shadow-lg overflow-y-auto custom-scrollbar">
                 <h1 class="text-2xl font-bold mb-4">関連動画</h1>
                 <div class="grid grid-cols-1 gap-4">
                     @if (!empty($TaskVideos))
                         @foreach ($TaskVideos as $video)
-                            <div class="bg-gray-700 rounded-lg shadow-md overflow-hidden">
+                            <div class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg shadow-md overflow-hidden">
                                 <a href="{{ $video['url'] }}" target="_blank" class="block">
                                     <img src="https://img.youtube.com/vi/{{ explode('=', $video['url'])[1] }}/hqdefault.jpg" alt="{{ $video['title'] }}" class="w-full h-48 object-cover">
                                     <div class="p-4">
-                                        <h3 class="text-lg font-semibold text-white">
+                                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
                                             {{ $video['title'] }}
                                         </h3>
                                     </div>
