@@ -46,13 +46,16 @@
                                                 <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
                                                     {{ $loop->iteration }}. {{ $task->name }}
                                                 </h2>
-                                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                                    <p class="list-disc pl-5">
+                                                <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">
                                                         @foreach (explode(' ', $task->description) as $description)
-                                                            <p>{{ $description }}</p>
+                                                            <p>{!! nl2br(e($description)) !!}</p>
                                                         @endforeach
-                                                    </p>
-                                                </p>
+                                                </div>
+                                                <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                                    @if ($task->deadline)
+                                                        <p>締切: {{ $task->deadline }}</p>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
 

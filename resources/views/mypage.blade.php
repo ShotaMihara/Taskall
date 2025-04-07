@@ -33,12 +33,34 @@
                                 <div class="w-full bg-gray-300 rounded-full h-4 mt-2">
                                     <div class="bg-blue-500 h-4 rounded-full" style="width: {{ $goal->progress }}%;"></div>
                                 </div>
-                                <p class="mt-2 mb-2">ステータス：{{ $goal->progress == 100 ? '達成済み' : '未達成' }}</ｐ><br>
-                                <a href="{{ route('show', $goal->id) }}" class="inline-flex items-center mt-2 px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
-                                    詳細を見る
-                                </a>
+                                <p class="mt-2 mb-2">ステータス：{{ $goal->progress == 100 ? '達成済み' : '未達成' }}</p>
+                                <div class="flex justify-end space-x-2 mt-4">
+                                    <!-- 詳細ボタン -->
+                                    <a href="{{ route('show', $goal->id) }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                                        詳細を見る
+                                    </a>
+                                    <!-- 削除ボタン -->
+                                    <button onclick="openModal({{ $goal->id }})" class="inline-flex items-center px-4 py-2 bg-red-600 dark:bg-red-400 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-red-500 dark:hover:bg-red-300 focus:bg-red-700 dark:focus:bg-red-500 active:bg-red-800 dark:active:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                                        削除
+                                    </button>
+                                </div>
                             </div>
-                            
+                        </div>
+                    </div>
+
+                    <!-- モーダル -->
+                    <div id="modal-{{ $goal->id }}" class="fixed inset-0 z-50 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center">
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-1/3">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">目標を削除しますか？</h2>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">この操作は取り消せません。</p>
+                            <div class="flex justify-end">
+                                <button onclick="closeModal({{ $goal->id }})" class="px-4 py-2 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md mr-2">キャンセル</button>
+                                <form action="{{ route('goals.destroy', $goal->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md">削除</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -50,6 +72,17 @@
                 <a href="{{ route('setting') }}" class="inline-flex items-center mt-2 px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
                     ＋目標を追加
                 </a>
+            </div>
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    function openModal(goalId) {
+        document.getElementById(`modal-${goalId}`).classList.remove('hidden');
+    }
+
+    function closeModal(goalId) {
+        document.getElementById(`modal-${goalId}`).classList.add('hidden');
+    }
+</script>

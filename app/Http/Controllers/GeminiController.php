@@ -72,7 +72,7 @@ class GeminiController extends Controller
         try {
             $response = $youtube->search->listSearch('snippet', [
                 'q' => $query,
-                'maxResults' => 5,
+                'maxResults' => 1,
                 'type' => 'video',
             ]);
 
@@ -113,7 +113,7 @@ class GeminiController extends Controller
 
             // タスクを保存
             foreach ($TaskNames as $index => $name) {
-                // 各タスクの詳細を「？」で結合
+                // 各タスクの詳細を「 」で結合
                 $description = implode(' ', $chunkedDescriptions[$index] ?? []);
 
                 Task::create([

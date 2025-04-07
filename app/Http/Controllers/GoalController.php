@@ -32,5 +32,17 @@ class GoalController extends Controller
 
         return view('show', compact('goal', 'tasks', 'resources'));
     }
+
+    public function destroy($id)
+    {
+        // ゴールを取得
+        $goal = Goal::findOrFail($id);
+
+        // ゴールを削除
+        $goal->delete();
+
+        // マイページにリダイレクト
+        return redirect()->route('mypage')->with('success', 'ゴールが削除されました！');
+    }
 }
 

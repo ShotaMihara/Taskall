@@ -22,12 +22,24 @@ class TaskController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
             'deadline' => 'nullable|date',
         ]);
 
         $task->update($validated);
 
-        return redirect()->route('mypage')->with('success', 'タスクが更新されました！');
+        // ゴール詳細ページへリダイレクト
+        return redirect()->route('show', ['id' => $task->goal_id])->with('success', 'タスクが更新されました！');
+    }
+
+    /**
+     * タスクを削除
+     */
+    public function destroy(Task $task)
+    {
+        $task->delete();
+
+        return redirect()->route('show', ['id' => $task->goal_id])->with('success', 'タスクが削除されました！');
     }
 
     /**
@@ -46,4 +58,6 @@ class TaskController extends Controller
 
         return redirect()->back();
     }
+
+    
 }
