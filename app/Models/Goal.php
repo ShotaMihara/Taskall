@@ -38,4 +38,27 @@ class Goal extends Model
         $this->progress = $totalTasks > 0 ? round(($completedTasks / $totalTasks) * 100, 2) : 0;
         $this->save();
     }
+
+    public static function forUser($userId)
+    {
+        $goals = self::where('user_id', $userId)->with('tasks')->get();
+        $goals->each(function ($goal) {
+            $goal->calculateProgress();
+        });
+        return $goals;
+    }
+
+    public static function withDetails($id)
+    {
+        $goal = self::with('resources', 'tasks')->findOrFail($id);
+        $goal->calculateProgress();
+        return $goal;
+    }
+
+    public static function deleteById($id)
+    {
+        $goal = self::findOrFail($id);
+        $goal->delete();
+    }
+
 }
