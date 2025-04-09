@@ -26,7 +26,7 @@ class TaskController extends Controller
             'deadline' => 'nullable|date',
         ]);
 
-        $task->update($validated);
+        $task->updateTask($validated);
 
         // ゴール詳細ページへリダイレクト
         return redirect()->route('show', ['id' => $task->goal_id])->with('success', 'タスクが更新されました！');
@@ -37,7 +37,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        $task->delete();
+        $task->deleteTask();
 
         return redirect()->route('show', ['id' => $task->goal_id])->with('success', 'タスクが削除されました！');
     }
@@ -47,9 +47,7 @@ class TaskController extends Controller
      */
     public function toggleStatus(Request $request, Task $task)
     {
-        // タスクのステータスを切り替える
-        $task->status = !$task->status;
-        $task->save();
+        $task->toggleStatus();
 
         // color-mode をセッションに保存
         if ($request->has('color-mode')) {
@@ -58,6 +56,4 @@ class TaskController extends Controller
 
         return redirect()->back();
     }
-
-    
 }
