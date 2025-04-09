@@ -11,9 +11,9 @@
             <form action="{{ route('save.to.database') }}" method="POST">
                 @csrf
                 <input type="hidden" name="prompt" value="{{ request('question') }}">
-                <input type="hidden" name="taskNames" value="{{ json_encode($TaskNames) }}">
-                <input type="hidden" name="taskDescriptions" value="{{ json_encode($TaskDescription) }}">
-                <input type="hidden" name="taskVideos" value="{{ json_encode($TaskVideos) }}">
+                <input type="hidden" name="taskNames" value="{{ json_encode($taskNames) }}">
+                <input type="hidden" name="taskDescriptions" value="{{ json_encode($taskDescriptions) }}">
+                <input type="hidden" name="taskVideos" value="{{ json_encode($taskVideos) }}">
                 <button type="submit" class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#f9f8f54a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
                     タスクを保存
                 </button>
@@ -36,7 +36,7 @@
             <div id="leftContent" class="w-3/4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-6 mx-6 rounded-lg shadow-lg border-b-4 border-gray-800 overflow-y-auto custom-scrollbar">
                 <h1 class="text-2xl font-bold mb-4 flex items-center justify-center">作成されたタスク</h1>
                 <div class="mb-4 text-lg">
-                    @foreach ($TaskNames as $index => $name)
+                    @foreach ($taskNames as $index => $name)
                         <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg mb-4 p-4 border border-transparent hover:border-white">
                             <!-- タスク名 -->
                             <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">
@@ -49,7 +49,7 @@
                             <div class="text-gray-600 dark:text-gray-400 p-2">
                                 <h3 class="text-lg font-bold mt-2 mb-2">タスクの詳細</h3>
                                 <ul class="list-disc pl-5">
-                                    @foreach (array_chunk($TaskDescription, 3)[$index] ?? [] as $description)
+                                    @foreach (array_chunk($taskDescriptions, 3)[$index] ?? [] as $description)
                                         <li>{{ $description }}</li>
                                     @endforeach
                                 </ul>
@@ -68,8 +68,8 @@
             <div class="w-1/4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-6 rounded-lg shadow-lg overflow-y-auto custom-scrollbar">
                 <h1 class="text-2xl font-bold mb-4">関連動画</h1>
                 <div class="grid grid-cols-1 gap-4">
-                    @if (!empty($TaskVideos))
-                        @foreach ($TaskVideos as $video)
+                    @if (!empty($taskVideos))
+                        @foreach ($taskVideos as $video)
                             <div class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg shadow-md overflow-hidden">
                                 <a href="{{ $video['url'] }}" target="_blank" class="block">
                                     <img src="https://img.youtube.com/vi/{{ explode('=', $video['url'])[1] }}/hqdefault.jpg" alt="{{ $video['title'] }}" class="w-full h-48 object-cover">
