@@ -22,7 +22,7 @@ class YouTubeService
         try {
             $response = $youtube->search->listSearch('snippet', [
                 'q' => $query,
-                'maxResults' => 1,
+                'maxResults' => 5,
                 'type' => 'video',
             ]);
 

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('ゴール詳細画面') }}
+            {{ __('目標詳細画面') }}
         </h2>
     </x-slot>
 
@@ -10,7 +10,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">ゴール詳細</h1>
+                    <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">タスク一覧</h1>
                     <div class="mb-4 text-lg text-gray-600 dark:text-gray-400">
                         <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">{{ $goal->title }}</h2>
                         

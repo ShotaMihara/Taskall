@@ -14,4 +14,10 @@ class Resource extends Model
         'title',
         'link',
     ];
+
+    public function goals()
+    {
+        return $this->belongsTo(Goal::class);
+    }
+
 }
