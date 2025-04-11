@@ -3,7 +3,6 @@
 
 <h2 style="text-align: center;">taskall(タスカル)</h2>
 
-<<<<<<< HEAD
 ![top](/Readme/top.png)</br>
 
 # 概要
@@ -68,7 +67,6 @@ mysql 8.0</br>
 Docker (開発環境)
 
 
-=======
 <img width="1023" alt="top" src="https://github.com/user-attachments/assets/49922be1-bcdd-40cf-be40-cc54411042de" />
 
 
@@ -136,7 +134,6 @@ mysql 8.0</br>
 Docker (開発環境)
 
 
->>>>>>> c4c0f2ece439b6b7e6a1b20cd30e8cc09fadb642
 **その他の使用技術**<br>
 gemini-2.0-flash</br>
 YouTube Data API</br>
