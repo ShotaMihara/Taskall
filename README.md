@@ -141,12 +141,9 @@ git(gitHub) / Visual Studio Code</br>
 Drawio(ER図))</br>
 
 ### ・ ER図
-<<<<<<< HEAD
-![ER](/Readme/ER.png)</br>
-=======
+
 ![ER](https://github.com/user-attachments/assets/a856a07c-6f57-40cf-812b-670b0cbb1879)</br>
 
->>>>>>> c4c0f2ece439b6b7e6a1b20cd30e8cc09fadb642
 
 ### ・ 各種テーブル
 
