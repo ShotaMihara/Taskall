@@ -11,7 +11,7 @@
 Taskall（たすかる）は、そんな迷いを「行動」に変えるアプリです。
 ユーザーが入力した目標を、具体的で実行可能なタスクへと自動で分解。
 一歩ずつ確実に前進できる“行動地図”を提供します。
-/Users/user/Taskall/ReadMe/top.png
+
 # 制作背景
 未経験からWEBエンジニアを目指した当時、何から始めればいいのか分からず、<br>
 検索しても専門用語や抽象的なロードマップばかりで、最初の一歩が見えませんでした。<br>
@@ -27,22 +27,23 @@ Taskall（たすかる）は、そんな迷いを「行動」に変えるアプ�
 Topページから新規登録ボタンを押すと、ユーザー登録画面へ推移します。</br>
 名前、メールアドレス、パスワードを入力登録後、myPageへ推移します。</br>
 ※既に登録している方はリンクを押してもらうとログインページに飛びます。
+![user-1](https://github.com/user-attachments/assets/bb9621a2-94f7-40b8-94bb-c518c3dd1178)</br>
 
-![user](/Readme/user.gif)</br>
 
 ・目標作成画面</br>
 目標追加ボタンを押すと、目標入力フォームが表示されます。</br>
 なりたい目標を入力するとタスクが作成され、右側に参考になるYoutube動画が表示されます。</br>
 作成されたタスクには具体的な内容が記入されております。</br>
 
-![setting](/Readme/setting.gif)</br>
+![setting](https://github.com/user-attachments/assets/a0e7340d-a87b-4efe-ad44-f2e5853a19ce)</br>
 
 ・目標作成確認</br>
 作成されたタスクが気に入らない場合は、再読み込みボタンを押して、タスクを再生成します。</br>
 また、資格のレベルが複数ある場合は、再度目標を設定ボタンを押してレベルを指定して再作成できます。</br>
 OKであればタスクを保存ボタンを押すとmypageに推移し、作成した目標が表示されます。</br>
 
-![show](/Readme/show.gif)</br>
+
+![show-1](https://github.com/user-attachments/assets/2a227584-b700-4856-ae91-7b2cca717245)</br>
 
 ・目標、タスクの確認</br>
 作成された目標の詳細を見るボタンを押すとタスクの一覧を見ることができます。</br>
@@ -52,7 +53,7 @@ OKであればタスクを保存ボタンを押すとmypageに推移し、作成
 編集ボタンを押すと編集ページに推移し、タスク名、タスク詳細を編集でき、タスクの削除を行えます。</br>
 締め切りを設ける場合は日付を設定できます。</br>
 
-![task.edit](/Readme/task.edit.gif)</br>
+![task edit](https://github.com/user-attachments/assets/99df89e1-1319-4e24-9961-8003b873e52b)</br>
 
 
 # 使用技術
@@ -75,7 +76,8 @@ git(gitHub) / Visual Studio Code</br>
 Drawio(ER図))</br>
 
 ### ・ ER図
-![ER](/Readme/ER.png)</br>
+![ER](https://github.com/user-attachments/assets/a856a07c-6f57-40cf-812b-670b0cbb1879)</br>
+
 
 ### ・ 各種テーブル
 
