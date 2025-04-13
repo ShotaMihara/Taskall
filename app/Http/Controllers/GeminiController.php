@@ -46,7 +46,9 @@ class GeminiController extends Controller
         DB::beginTransaction();
 
         try {
+            // リクエストからデータを取得
             $prompt = $request->input('prompt');
+            // タスク名、詳細、動画を取得。JSON形式から配列へ
             $taskNames = json_decode($request->input('taskNames'), true) ?? [];
             $taskDescriptions = json_decode($request->input('taskDescriptions'), true) ?? [];
             $taskVideos = json_decode($request->input('taskVideos'), true) ?? [];
