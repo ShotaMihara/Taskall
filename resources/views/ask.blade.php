@@ -6,7 +6,6 @@
     </x-slot>
     <div class="flex flex-col mt-8 h-screen">
         <!-- ボタン部分 -->
-        
         <div class="flex justify-center items-center gap-4 mb-4 px-6">
             <form action="{{ route('save.to.database') }}" method="POST">
                 @csrf
