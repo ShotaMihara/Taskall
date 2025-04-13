@@ -81,22 +81,3 @@
         </div>
     </div>
 </x-app-layout>
-
-<script>
-    function submitToggleForm(taskId) {
-        // localStorage から color-mode を取得して隠しフィールドに設定
-        const colorMode = localStorage.getItem('color-mode');
-        document.getElementById(`color-mode-${taskId}`).value = colorMode;
-
-        // フォームを送信
-        document.getElementById(`toggle-form-${taskId}`).submit();
-    }
-
-    // ページ読み込み時に color-mode を適用
-    const colorMode = localStorage.getItem('color-mode');
-    if (colorMode === 'dark') {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
-</script>
