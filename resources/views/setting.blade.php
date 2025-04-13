@@ -29,18 +29,4 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('goalForm').addEventListener('submit', function () {
-            const submitButton = document.getElementById('submitButton');
-            const buttonText = document.getElementById('buttonText');
-            const loadingSpinner = document.getElementById('loadingSpinner');
-
-            // ボタンを無効化
-            submitButton.disabled = true;
-
-            // ボタンのテキストを変更してスピナーを表示
-            buttonText.textContent = 'タスクを作成中...';
-            loadingSpinner.classList.remove('hidden');
-        });
-    </script>
 </x-app-layout>
