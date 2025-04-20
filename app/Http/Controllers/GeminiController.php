@@ -53,7 +53,7 @@ class GeminiController extends Controller
             $taskDescriptions = json_decode($request->input('taskDescriptions'), true) ?? [];
             $taskVideos = json_decode($request->input('taskVideos'), true) ?? [];
 
-            // ゴールを作成
+            // ゴールを保存
             $goal = Goal::create([
                 'title' => $prompt,
                 'user_id' => Auth::id(),
