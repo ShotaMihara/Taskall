@@ -13,8 +13,8 @@ Route::get('/', function () {
 
 // 認証が必要なルート
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/mypage', [GoalController::class, 'GoalIndex'])->name('mypage');
-    Route::get('/goal/{id}', [GoalController::class, 'GoalShow'])->name('show');
+    Route::get('/mypage', [GoalController::class, 'Index'])->name('mypage');
+    Route::get('/goal/{id}', [GoalController::class, 'Show'])->name('show');
     Route::get('/ask', [GeminiController::class, 'askQuestion'])->name('ask');
     Route::view('/setting', 'setting')->name('setting');
 
@@ -24,7 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
     Route::patch('/tasks/{task}/toggle-status', [TaskController::class, 'toggleStatus'])->name('tasks.toggleStatus');
     Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
-    Route::delete('/goals/{goal}', [GoalController::class, 'goalDestroy'])->name('goals.destroy');
+    Route::delete('/goals/{goal}', [GoalController::class, 'Destroy'])->name('goals.destroy');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

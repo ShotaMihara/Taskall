@@ -3,21 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Goal;
+use App\Services\GoalService;
 
 class GoalController extends Controller
 {
-    public function GoalIndex()
+    protected $goalService;
+
+    public function __construct(GoalService $goalService)
     {
-        // ユーザーのゴールを取得
-        $goals = Goal::forUser(auth()->id());
+        $this->goalService = $goalService;
+    }
+
+    public function index()
+    {
+        $goals = $this->goalService->getGoalsForUser(auth()->id());
         return view('mypage', compact('goals'));
     }
-    
-    public function GoalShow($id)
+
+    public function show($id)
     {
-        // ゴールの詳細を取得
-        $goal = Goal::withDetails($id);
+        $goal = $this->goalService->getGoalWithDetails($id);
         return view('show', [
             'goal' => $goal,
             'tasks' => $goal->tasks,
@@ -25,10 +30,9 @@ class GoalController extends Controller
         ]);
     }
 
-    public function goalDestroy($id)
+    public function destroy($id)
     {
-        // ゴールを削除
-        Goal::deleteById($id);
+        $this->goalService->deleteGoalById($id);
         return redirect()->route('mypage')->with('success', 'ゴールが削除されました！');
     }
 }
