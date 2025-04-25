@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\GeminiService;
 use App\Services\YouTubeService;
+use App\Services\TaskService;
 use Illuminate\Support\Facades\Log;
-use App\Models\Goal;
-use App\Models\Task;
-use App\Models\Resource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -16,11 +14,13 @@ class GeminiController extends Controller
 {
     protected $geminiService;
     protected $youTubeService;
+    protected $taskService;
 
-    public function __construct(GeminiService $geminiService, YouTubeService $youTubeService)
+    public function __construct(GeminiService $geminiService, YouTubeService $youTubeService, TaskService $taskService)
     {
         $this->geminiService = $geminiService;
         $this->youTubeService = $youTubeService;
+        $this->taskService = $taskService;
     }
 
     public function askQuestion(Request $request)
@@ -32,8 +32,8 @@ class GeminiController extends Controller
         $taskDetails = $this->geminiService->generateTaskDetails($tasks);
 
         // タスク名と詳細を抽出
-        $taskNames = $this->extractTaskNames($tasks);
-        $taskDescriptions = $this->extractTaskDescriptions($taskDetails);
+        $taskNames = $this->taskService->extractTaskNames($tasks);
+        $taskDescriptions = $this->taskService->extractTaskDescriptions($taskDetails);
 
         // YouTube 動画を取得
         $taskVideos = $this->youTubeService->getVideos($prompt);
@@ -48,59 +48,23 @@ class GeminiController extends Controller
         try {
             // リクエストからデータを取得
             $prompt = $request->input('prompt');
-            // タスク名、詳細、動画を取得。JSON形式から配列へ
             $taskNames = json_decode($request->input('taskNames'), true) ?? [];
             $taskDescriptions = json_decode($request->input('taskDescriptions'), true) ?? [];
             $taskVideos = json_decode($request->input('taskVideos'), true) ?? [];
 
-            // ゴールを保存
-            $goal = Goal::create([
-                'title' => $prompt,
-                'user_id' => Auth::id(),
-            ]);
-
-            // タスク詳細を3つずつ分割
-            $chunkedDescriptions = array_chunk($taskDescriptions, 3);
-
-            // タスクを保存
-            foreach ($taskNames as $index => $name) {
-                $description = implode(' ', $chunkedDescriptions[$index] ?? []);
-
-                Task::create([
-                    'goal_id' => $goal->id,
-                    'name' => $name,
-                    'description' => $description,
-                ]);
-            }
-
-            // リソースを保存
-            foreach ($taskVideos as $video) {
-                Resource::create([
-                    'goal_id' => $goal->id,
-                    'title' => $video['title'],
-                    'link' => $video['url'],
-                ]);
-            }
+            // データを保存
+            $this->taskService->saveGoalWithTasksAndResources($prompt, $taskNames, $taskDescriptions, $taskVideos);
 
             DB::commit();
 
             return to_route('mypage')->with('success', 'タスクとリソースを保存しました！');
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Failed to save data:', ['error' => $e->getMessage()]);
+            Log::error('Failed to save data:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
             return redirect()->back()->with('error', 'データの保存に失敗しました。');
         }
-    }
-
-    private function extractTaskNames($response)
-    {
-        preg_match_all('/"(.*?)"/', $response, $matches);
-        return $matches[1] ?? [];
-    }
-
-    private function extractTaskDescriptions($response)
-    {
-        preg_match_all('/\?(.*?)\?/', $response, $matches);
-        return $matches[1] ?? [];
     }
 }
