@@ -4,10 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Services\TaskService;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    protected $taskService;
+
+    public function __construct(TaskService $taskService)
+    {
+        $this->taskService = $taskService;
+    }
+
     /**
      * タスク編集ページを表示
      */
@@ -25,7 +33,7 @@ class TaskController extends Controller
         $validated = $request->validated();
 
         // タスクを更新
-        $task->updateTask($validated);
+        $this->taskService->updateTask($task, $validated);
 
         // ゴール詳細ページへリダイレクト
         return redirect()->route('show', ['id' => $task->goal_id])->with('success', 'タスクが更新されました！');
@@ -37,7 +45,8 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         // タスクを削除
-        $task->deleteTask();
+        $this->taskService->deleteTask($task);
+
         // ゴール詳細ページへリダイレクト
         return redirect()->route('show', ['id' => $task->goal_id])->with('success', 'タスクが削除されました！');
     }
@@ -48,8 +57,8 @@ class TaskController extends Controller
     public function toggleStatus(Request $request, Task $task)
     {
         // タスクの状態を切り替え
-        $task->toggleStatus();
-        
+        $this->taskService->toggleTaskStatus($task);
+
         if ($request->has('color-mode')) {
             session(['color-mode' => $request->input('color-mode')]);
         }

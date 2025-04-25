@@ -52,4 +52,29 @@ class TaskService
             ]);
         }
     }
+
+    /**
+     * タスクを更新
+     */
+    public function updateTask(Task $task, array $data)
+    {
+        $task->update($data);
+    }
+
+    /**
+     * タスクを削除
+     */
+    public function deleteTask(Task $task)
+    {
+        $task->delete();
+    }
+
+    /**
+     * タスクの状態を切り替え
+     */
+    public function toggleTaskStatus(Task $task)
+    {
+        $task->status = !$task->status;
+        $task->save();
+    }
 }
