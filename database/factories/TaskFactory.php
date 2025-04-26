@@ -39,7 +39,7 @@ class TaskFactory extends Factory
             'name' => $this->faker->realText(20),
             'description' => $this->faker->realText(50),
             'deadline' => $this->faker->dateTimeBetween('now', '+1 month'),
-            'status' => 0,
+            'status' => $this->faker->boolean,
             'order' => self::$order++,
         ];
     }

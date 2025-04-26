@@ -21,8 +21,8 @@ class GoalFactory extends Factory
             'user_id' => User::factory(), // ユーザーを関連付け
             'title' => $this->faker->sentence,
             'deadline' => $this->faker->date,
-            'progress' => $this->faker->numberBetween(0, 100),
-            'is_completed' => $this->faker->boolean,
+            'progress' => 0,
+            'is_completed' => false,
         ];
     }
 }

@@ -21,7 +21,7 @@ class TaskServiceTest extends TestCase
         $this->taskService = app(TaskService::class);
     }
 
-    #[Test]
+    /** @test */
     public function testItCanUpdateATask()
     {
         // Arrange: ユーザー、ゴール、タスクを作成
