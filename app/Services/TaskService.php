@@ -72,9 +72,9 @@ class TaskService
     /**
      * タスクの状態を切り替え
      */
-    public function toggleTaskStatus(Task $task)
+    public function toggleTaskStatus(Task $task): void
     {
         $task->status = !$task->status;
-        $task->save();
+        $task->save(); // 状態をデータベースに保存
     }
 }

@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Goal;
+use App\Models\User; // ユーザーを関連付けるためにインポート
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
- */
 class GoalFactory extends Factory
 {
+    protected $model = Goal::class;
+
     /**
      * Define the model's default state.
      *
@@ -18,8 +18,8 @@ class GoalFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->realText(50),
-            'description' => $this->faker->realText(200),
+            'user_id' => User::factory(), // ユーザーを関連付け
+            'title' => $this->faker->sentence,
             'deadline' => $this->faker->date,
             'progress' => $this->faker->numberBetween(0, 100),
             'is_completed' => $this->faker->boolean,

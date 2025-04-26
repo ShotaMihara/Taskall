@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Goal;
+use App\Models\Task;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
@@ -16,7 +17,7 @@ class TaskFactory extends Factory
      *
      * @var string
      */
-    protected $model = \App\Models\Task::class;
+    protected $model = Task::class;
 
     /**
      * The current order value.
@@ -38,10 +39,8 @@ class TaskFactory extends Factory
             'name' => $this->faker->realText(20),
             'description' => $this->faker->realText(50),
             'deadline' => $this->faker->dateTimeBetween('now', '+1 month'),
-            'status' => $this->faker->numberBetween(0, 1),
+            'status' => 0,
             'order' => self::$order++,
-            
-
         ];
     }
 }
